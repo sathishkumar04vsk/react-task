@@ -1,8 +1,11 @@
 import "./App.css";
 import { useState } from "react";
+import * as React from 'react';
+
+import Button from '@mui/material/Button';
 
 export default function App() {
-  var [Movies,setMovie] =useState( [
+  var Initial_movies =[
     {
       name: "RRR",
       poster:
@@ -65,13 +68,44 @@ export default function App() {
       summary:
         "Remy, a rat, aspires to become a renowned French chef. However, he fails to realise that people despise rodents and will never enjoy a meal cooked by him."
     }
-  ]);
+  ];
+  const [movielist,setMovieList]=useState(Initial_movies)
+
+  const[name,setName]=useState("");
+  const[poster,setPoster]=useState("");
+  const[summary,setSummary]=useState("");
+  const[rating,setRating]=useState("");
+
 
   return (
     <div className="App">
+      <div className="container">
+      <h4 className="text-center">Add a New Movie</h4>
+    <div className="inputs">
+      <input type="text" placeholder="Enter the Movie Name" onChange={(event)=>setName(event.target.value)}/>
+      <input type="text" placeholder="Enter the Poster link" onChange={(event)=>setPoster(event.target.value)}/>
+      <input type="text" placeholder="Enter the Movie Summary" onChange={(event)=>setSummary(event.target.value)}/>
+      <input type="text" placeholder="Enter the Movie Rating" onChange={(event)=>setRating(event.target.value)}/>
+      
+    
+    <Button variant="contained"
+    onClick={()=>{
+      const newMovie={
+        name:name,
+        poster:poster,
+        rating:rating,
+        summary:summary
+      };
+      setMovieList([...movielist,newMovie])
+      }}
+    >Add Movie</Button>
+    <button className="btn" 
+    >Enter</button>
+      </div>
+    </div>
       <div className="lists">
-        <Newmovie/>
-      {Movies.map((nm) => (
+     
+      {movielist.map((nm) => (
         <Movieslist poster={nm.poster} moviename={nm.name} summary={nm.summary} Rating={nm.rating}/>
       ))}
       </div>
@@ -89,8 +123,8 @@ function Movieslist({ poster, moviename, summary,Rating}) {
     <div className="movies">
       <img src={poster} alt="Poster_pic" /> 
        <div className="title">
-      <h1 className="moviename">{moviename}</h1>
-      <h4 style={style} className="rating"><i class="fa fa-star" aria-hidden="true"></i>  {Rating}/10</h4>
+      <h4 className="moviename">{moviename}</h4>
+      <h4 style={style} className="rating"><i class="fa fa-star rate" aria-hidden="true"></i>  {Rating}/10</h4>
       </div>
       <p className="summary"><b>Summary: </b>{summary}</p>
       <div className="like-btn">
@@ -101,22 +135,4 @@ function Movieslist({ poster, moviename, summary,Rating}) {
     </div>
   );
 }
-function Newmovie(){
-  const[poste,setPoster]=useState('');
-  const[nam,setName]=useState('');
-  const[summar,setSummary]=useState('');
-  const[ratin,setRating]=useState('');
-  return(
-    <div className="container">
-      <h4 className="text-center">Add a New Movie</h4>
-    <div className="inputs">
-      <input placeholder="Enter the Poster link" onChange={(event)=>setPoster(event.target.value)}/>
-      <input placeholder="Enter the Movie Name" onChange={(event)=>setName(event.target.value)}/>
-      <input placeholder="Enter the Movie Summary" onChange={(event)=>setSummary(event.target.value)}/>
-      <input placeholder="Enter the Movie Rating" onChange={(event)=>setRating(event.target.value)}/>
-      
-    </div>
-    <button className="btn" onClick={()=>setMovie([...Movies,{name:{nam},poster:{poste},rating:{ratin},summary:{summar}}])}>Enter</button>
-    </div>
-  );
-}
+
